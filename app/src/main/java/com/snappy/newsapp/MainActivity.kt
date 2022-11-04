@@ -8,7 +8,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.snappy.newsapp.databinding.ActivityMainBinding
 
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity(), NewsItemClicked {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         recyclerView = findViewById(R.id.recyclerView)
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity(), NewsItemClicked {
             Request.Method.GET,
             url,
             null,
-            Response.Listener {
+            {
                 val newsJsonArray = it.getJSONArray("articles")
                 val newsArray = ArrayList<News>()
                 for(i in 0 until newsJsonArray.length()) {
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity(), NewsItemClicked {
 
                 mAdapter.updateNews(newsArray)
             },
-            Response.ErrorListener {
+            {
                 Toast.makeText(this,"Nothing to Show", Toast.LENGTH_LONG).show()
             }
         )
